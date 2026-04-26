@@ -645,14 +645,18 @@ const tick = setInterval(() => {
   if(topSecs) topSecs.textContent = s;
 }, 1000);
 
-// ── AFFILIATE LINK (hardcoded) ──
-const MY_AFFILIATE_URL = "https://payhip.com/EEM26?af=af69dea5e7bbe83";
-
-// Set all direct link buttons
-['hero-dl','final-dl','float-dl','nav-dl','proof-dl'].forEach(id => {
-  const el = document.getElementById(id);
-  if(el) el.href = MY_AFFILIATE_URL;
-});
+// ── AFFILIATE TRACKING ──
+const BASE_URL = "https://payhip.com/b/xeqSM/af69dea5e7bbe83";
+function getParam(n){ return new URLSearchParams(window.location.search).get(n); }
+function setLinks(){
+  const af = getParam('af');
+  const url = af ? BASE_URL + '/' + encodeURIComponent(af) : BASE_URL;
+  ['hero-dl','final-dl','float-dl','nav-dl','proof-dl'].forEach(id => {
+    const el = document.getElementById(id);
+    if(el) el.href = url;
+  });
+}
+setLinks();
 
 // ── SCROLL REVEAL ──
 const obs = new IntersectionObserver(entries => {
@@ -662,11 +666,11 @@ const obs = new IntersectionObserver(entries => {
 }, { threshold: 0.07 });
 document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 
-// ── PAYHIP POPUP (now redirects to affiliate link) ──
+// ── PAYHIP POPUP ──
 document.querySelectorAll('.buy-trigger').forEach(el => {
   el.addEventListener('click', function(e) {
     e.preventDefault();
-    window.open(MY_AFFILIATE_URL, '_blank');
+    window.open('https://payhip.com/b/xeqSM/af69dea5e7bbe83', '_blank');
   });
 });
 </script>
